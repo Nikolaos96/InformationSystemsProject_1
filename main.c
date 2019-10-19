@@ -39,7 +39,9 @@ int main(int argc, char *argv[]){
      printf("Error malloc Ss_2.tuples");
      return -1;
  }
-
+ //  mporoume ta parapanw na ta kanoume se sinartisi
+ //  tha prepei na einai deiktes omws
+ //  create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2);
 
 
 
