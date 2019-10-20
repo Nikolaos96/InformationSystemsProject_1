@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "function.h"
 #include "lista.h"
-
+#include "stack.h"
 
 
 int main(int argc, char *argv[]){
@@ -10,6 +10,7 @@ int main(int argc, char *argv[]){
    relation *Ss_1, *Ss_2;
    int *hist, *p_sum;
    int r_size = 1000, s_size = 2000;
+   int i;
 
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size);
 
@@ -32,12 +33,28 @@ int main(int argc, char *argv[]){
 
 
 
-   int i;
    for(i = 0 ; i < 60 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
 
    printf("\n\n");
 
    for(i = 0 ; i < 10 ; i++) printf("%d \n", hist[i]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     free(hist);
