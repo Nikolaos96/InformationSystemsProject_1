@@ -20,8 +20,9 @@ typedef struct relation{
 
 
 
-void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2);
-
-
+void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s);
+void make_hist(relation **Rr_1, int r_size, int *hist, int hist_size);
+void make_p_sum(int *hist, int hist_size, int *p_sum, int p_sum_size);
+void make_Rr_2(relation **Rr_1, relation **Rr_2, int r_size, int *p_sum, int p_sum_size);
 
 #endif

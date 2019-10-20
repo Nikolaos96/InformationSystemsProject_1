@@ -6,58 +6,50 @@
 
 
 int main(int argc, char *argv[]){
- //int
- relation Rr_1, Rr_2;
- relation Ss_1, Ss_2;
+   relation *Rr_1, *Rr_2;
+   relation *Ss_1, *Ss_2;
+   int *hist, *p_sum;
+   int r_size = 1000, s_size = 2000;
 
- Rr_1.num_tuples = 100;	////
- Rr_1.tuples = malloc(Rr_1.num_tuples * sizeof(tuple));
- if(Rr_1.tuples == NULL){
-     printf("Error malloc Rr_1.tuples");
-     return -1;
- }
-
- Rr_2.num_tuples = 100; ////
- Rr_2.tuples = malloc(Rr_2.num_tuples * sizeof(tuple));
- if(Rr_2.tuples == NULL){
-     printf("Error malloc Rr_2.tuples");
-     return -1;
- }
+   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size);
 
 
+   hist = malloc(256 * sizeof(int));
+   if(hist == NULL){
+       printf("Error malloc hist \n");
+       return -1;
+   }
+   p_sum = malloc(256 * sizeof(int));
+   if(p_sum == NULL){
+       printf("Error malloc p_sum \n");
+       return -1;
+   }
 
- Ss_1.num_tuples = 100; ////
- Ss_1.tuples = malloc(Ss_1.num_tuples * sizeof(tuple));
- if(Ss_1.tuples == NULL){
-     printf("Error malloc Ss_1.tuples");
-     return -1;
- }
+   make_hist(&Rr_1, r_size, &hist[0], 256);
+   make_p_sum(&hist[0], 256, &p_sum[0], 256);
 
- Ss_2.num_tuples = 100; ////
- Ss_2.tuples = malloc(Ss_2.num_tuples * sizeof(tuple));
- if(Ss_2.tuples == NULL){
-     printf("Error malloc Ss_2.tuples");
-     return -1;
- }
- //  mporoume ta parapanw na ta kanoume se sinartisi
- //  tha prepei na einai deiktes omws
- //  create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2);
+   make_Rr_2(&Rr_1, &Rr_2, r_size, &p_sum[0], 256);
 
 
 
+   int i;
+   for(i = 0 ; i < 60 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
+
+   printf("\n\n");
+
+   for(i = 0 ; i < 10 ; i++) printf("%d \n", hist[i]);
 
 
-
-
-
-
-
-
-
-    free(Rr_1.tuples);
-    free(Rr_2.tuples);
-    free(Ss_1.tuples);
-    free(Ss_2.tuples);
+    free(hist);
+    free(p_sum);
+    free(Rr_1->tuples);
+    free(Rr_1);
+    free(Rr_2->tuples);
+    free(Rr_2);
+    free(Ss_1->tuples);
+    free(Ss_1);
+    free(Ss_2->tuples);
+    free(Ss_2);
 
     return 0;
 }
