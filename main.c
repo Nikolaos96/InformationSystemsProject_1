@@ -6,6 +6,8 @@
 
 #define  MAX_BUCKET_SIZE 5		// kanonika 4096
 
+
+
 int main(int argc, char *argv[]){
    relation *Rr_1, *Rr_2;
    relation *Ss_1, *Ss_2;
@@ -65,7 +67,7 @@ int main(int argc, char *argv[]){
    //list = LIST_dimiourgia(&list);
    //Sort_Merge_Join(...................., &list);
    // emfanisi(list);
-   // lista_diagrafi(list);
+   //lista_diagrafi(&list);
 
     free(hist);
     free(p_sum);

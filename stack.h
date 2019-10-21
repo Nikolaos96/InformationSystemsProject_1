@@ -1,6 +1,6 @@
 #ifndef __STACK__
 #define __STACK__
-#include "function.h"
+#include "structs.h"
 
 typedef struct info_node * info_deikti;
 typedef struct typos_komvou * typos_deikti;

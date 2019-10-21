@@ -94,11 +94,18 @@
 
 
 
- void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti list){
+ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
+	/*
+
 
      int index_r = 0, index_ s = 0;
      do{
 
 
      }while(index_r <= r_size && s_size <= s_size);
+
+
+
+	*/
  }
+

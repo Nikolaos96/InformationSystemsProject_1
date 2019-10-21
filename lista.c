@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "lista.h"
 
-
  typedef struct info_node{
  	int size;
 	typos_deikti arxi;
