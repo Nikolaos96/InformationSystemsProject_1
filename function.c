@@ -104,16 +104,16 @@
      (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple)); // if == NULL
 
 
-     
+
 
      for(i = 0 ; i < (*Rr_1)->num_tuples ; i++){
-         (*Rr_1)->tuples[i].key = produce_random();
-	 (*Rr_1)->tuples[i].payload = 1;
+         (*Rr_1)->tuples[i].key = main_R[i][0];
+	 (*Rr_1)->tuples[i].payload = i+1;
      }
 
      for(i = 0 ; i < (*Ss_1)->num_tuples ; i++){
-	 (*Ss_1)->tuples[i].key = produce_random();
-	 (*Ss_1)->tuples[i].payload = 1;
+	 (*Ss_1)->tuples[i].key = main_S[i][0];
+	 (*Ss_1)->tuples[i].payload = i+1;
      }
  }
 
