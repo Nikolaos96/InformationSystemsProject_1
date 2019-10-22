@@ -17,32 +17,35 @@
  }
 
 
+
+
+
  void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s,
-			    uint64_t **main_R, uint64_t **main_S){
+			    uint64_t ***main_R, uint64_t ***main_S){
 
      int i;
 
-     main_R = malloc(size_r * sizeof(uint64_t));
-     if(main_R == NULL){
+     *main_R = malloc(size_r * sizeof(uint64_t));
+     if(*main_R == NULL){
 	 printf("Error malloc main_R \n");
          exit(1);
      }
      for(i = 0 ; i < size_r ; i++){
-         main_R[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
-	 if(main_R[i] == NULL){
+         (*main_R)[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
+	 if((*main_R)[i] == NULL){
 	     printf("Error malloc main_R[i] \n");
 	     exit(1);
 	 }
      }
 
-     main_S = malloc(size_s * sizeof(uint64_t));
-     if(main_S == NULL){
+     *main_S = malloc(size_s * sizeof(uint64_t));
+     if(*main_S == NULL){
 	 printf("Error malloc main_S \n");
 	 exit(1);
      }
      for(i = 0 ; i < size_s ; i++){
-         main_S[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
-	 if(main_S[i] == NULL){
+         (*main_S)[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
+	 if((*main_S)[i] == NULL){
 	     printf("Error malloc main_S[i] \n");
 	     exit(1);
 	 }
@@ -50,72 +53,71 @@
 
 
      FILE *f1, *f2;
-     f1 = fopen("table_R", "r");
+     f1 = fopen("table_R.txt", "r");
      if(f1 == NULL){
-	 printf("File table_R doesn't exist. \n");
+	 printf("File table_R.txt doesn't exist. \n");
 	 exit(1);
      }
      for(i = 0 ; i < size_r ; i++){
-         fscanf(f1, "%lu", &main_R[i][0]);
-         fscanf(f1, "%lu", &main_R[i][1]);
-	 fscanf(f1, "%lu", &main_R[i][2]);
-	 fscanf(f1, "%lu", &main_R[i][3]);
-	 fscanf(f1, "%lu", &main_R[i][4]);
+         fscanf(f1, "%lu", &(*main_R)[i][0]);
+         fscanf(f1, "%lu", &(*main_R)[i][1]);
+	 fscanf(f1, "%lu", &(*main_R)[i][2]);
+	 fscanf(f1, "%lu", &(*main_R)[i][3]);
+	 fscanf(f1, "%lu", &(*main_R)[i][4]);
      }
      fclose(f1);
-
-     f2 = fopen("table_S", "r");
+     f2 = fopen("table_S.txt", "r");
      if(f2 == NULL){
-         printf("File table_S doesn't exist. \n");
+         printf("File table_S.txt doesn't exist. \n");
          exit(1);
      }
      for(i = 0 ; i < size_s ; i++){
-	 fscanf(f1, "%lu", &main_S[i][0]);
-         fscanf(f1, "%lu", &main_S[i][1]);
-         fscanf(f1, "%lu", &main_S[i][2]);
-         fscanf(f1, "%lu", &main_S[i][3]);
-         fscanf(f1, "%lu", &main_S[i][4]);
+	 fscanf(f1, "%lu", &(*main_S)[i][0]);
+         fscanf(f1, "%lu", &(*main_S)[i][1]);
+         fscanf(f1, "%lu", &(*main_S)[i][2]);
+         fscanf(f1, "%lu", &(*main_S)[i][3]);
+         fscanf(f1, "%lu", &(*main_S)[i][4]);
      }
      fclose(f2);
 
 
 
-
-
-
-
-
-     *Rr_1 = malloc(sizeof(relation)); // if == NULL
-     *Rr_2 = malloc(sizeof(relation));
-     *Ss_1 = malloc(sizeof(relation));
-     *Ss_2 = malloc(sizeof(relation)); // if == NULL
+     *Rr_1 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Rr_1 \n"); exit(1); }
+     *Rr_2 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Rr_2 \n"); exit(1); }
+     *Ss_1 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Ss_1 \n"); exit(1); }
+     *Ss_2 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Ss_2 \n"); exit(1); }
 
 
      (*Rr_1)->num_tuples = size_r;
-     (*Rr_1)->tuples = malloc((*Rr_1)->num_tuples * sizeof(tuple)); // if == NULL
+     (*Rr_1)->tuples = malloc((*Rr_1)->num_tuples * sizeof(tuple));
+     if((*Rr_1)->tuples == NULL){ printf("Error malloc (*Rr_1)->tuples \n"); exit(1); }
 
      (*Rr_2)->num_tuples = size_r;
      (*Rr_2)->tuples = malloc((*Rr_2)->num_tuples * sizeof(tuple));
+     if((*Rr_2)->tuples == NULL){ printf("Error malloc (*Rr_2)->tuples \n"); exit(1); }
 
      (*Ss_1)->num_tuples = size_s;
      (*Ss_1)->tuples = malloc((*Ss_1)->num_tuples * sizeof(tuple));
+     if((*Ss_1)->tuples == NULL){ printf("Error malloc (*Ss_1)->tuples \n"); exit(1); }
 
      (*Ss_2)->num_tuples = size_s;
-     (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple)); // if == NULL
-
+     (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple));
+     if((*Ss_2)->tuples == NULL){ printf("Error malloc (*Ss_2)->tuples \n"); exit(1); }
 
 
 
      for(i = 0 ; i < (*Rr_1)->num_tuples ; i++){
-         (*Rr_1)->tuples[i].key = main_R[i][0];
+         (*Rr_1)->tuples[i].key = (*main_R)[i][0];
 	 (*Rr_1)->tuples[i].payload = i+1;
      }
 
      for(i = 0 ; i < (*Ss_1)->num_tuples ; i++){
-	 (*Ss_1)->tuples[i].key = main_S[i][0];
+	 (*Ss_1)->tuples[i].key = (*main_S)[i][0];
 	 (*Ss_1)->tuples[i].payload = i+1;
      }
  }
+
+
 
 
  void make_hist(relation **Rr_1, int r_size, int *hist, int hist_size){
@@ -131,6 +133,8 @@
 
 
 
+
+
  // ti kanoume an kappoi hist einai 0  ///////
 //////
 //////
@@ -142,6 +146,8 @@
          p_sum[i] = hist[i-1] + p_sum[i-1];
      }
  }
+
+
 
 
 
@@ -177,4 +183,5 @@
 
 	*/
  }
+
 
