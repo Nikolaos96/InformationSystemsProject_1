@@ -17,16 +17,82 @@
  }
 
 
- void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s){
+ void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s,
+			    uint64_t **main_R, uint64_t **main_S){
+
      int i;
-     *Rr_1 = malloc(sizeof(relation));
+
+     main_R = malloc(size_r * sizeof(uint64_t));
+     if(main_R == NULL){
+	 printf("Error malloc main_R \n");
+         exit(1);
+     }
+     for(i = 0 ; i < size_r ; i++){
+         main_R[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
+	 if(main_R[i] == NULL){
+	     printf("Error malloc main_R[i] \n");
+	     exit(1);
+	 }
+     }
+
+     main_S = malloc(size_s * sizeof(uint64_t));
+     if(main_S == NULL){
+	 printf("Error malloc main_S \n");
+	 exit(1);
+     }
+     for(i = 0 ; i < size_s ; i++){
+         main_S[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
+	 if(main_S[i] == NULL){
+	     printf("Error malloc main_S[i] \n");
+	     exit(1);
+	 }
+     }
+
+
+     FILE *f1, *f2;
+     f1 = fopen("table_R", "r");
+     if(f1 == NULL){
+	 printf("File table_R doesn't exist. \n");
+	 exit(1);
+     }
+     for(i = 0 ; i < size_r ; i++){
+         fscanf(f1, "%lu", &main_R[i][0]);
+         fscanf(f1, "%lu", &main_R[i][1]);
+	 fscanf(f1, "%lu", &main_R[i][2]);
+	 fscanf(f1, "%lu", &main_R[i][3]);
+	 fscanf(f1, "%lu", &main_R[i][4]);
+     }
+     fclose(f1);
+
+     f2 = fopen("table_S", "r");
+     if(f2 == NULL){
+         printf("File table_S doesn't exist. \n");
+         exit(1);
+     }
+     for(i = 0 ; i < size_s ; i++){
+	 fscanf(f1, "%lu", &main_S[i][0]);
+         fscanf(f1, "%lu", &main_S[i][1]);
+         fscanf(f1, "%lu", &main_S[i][2]);
+         fscanf(f1, "%lu", &main_S[i][3]);
+         fscanf(f1, "%lu", &main_S[i][4]);
+     }
+     fclose(f2);
+
+
+
+
+
+
+
+
+     *Rr_1 = malloc(sizeof(relation)); // if == NULL
      *Rr_2 = malloc(sizeof(relation));
      *Ss_1 = malloc(sizeof(relation));
-     *Ss_2 = malloc(sizeof(relation));
+     *Ss_2 = malloc(sizeof(relation)); // if == NULL
 
 
      (*Rr_1)->num_tuples = size_r;
-     (*Rr_1)->tuples = malloc((*Rr_1)->num_tuples * sizeof(tuple));
+     (*Rr_1)->tuples = malloc((*Rr_1)->num_tuples * sizeof(tuple)); // if == NULL
 
      (*Rr_2)->num_tuples = size_r;
      (*Rr_2)->tuples = malloc((*Rr_2)->num_tuples * sizeof(tuple));
@@ -35,7 +101,10 @@
      (*Ss_1)->tuples = malloc((*Ss_1)->num_tuples * sizeof(tuple));
 
      (*Ss_2)->num_tuples = size_s;
-     (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple));
+     (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple)); // if == NULL
+
+
+     
 
      for(i = 0 ; i < (*Rr_1)->num_tuples ; i++){
          (*Rr_1)->tuples[i].key = produce_random();

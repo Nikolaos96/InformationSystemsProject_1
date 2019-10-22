@@ -11,11 +11,12 @@
 int main(int argc, char *argv[]){
    relation *Rr_1, *Rr_2;
    relation *Ss_1, *Ss_2;
+   uint64_t **main_R, **main_S; // megethos 500 kai oi duo
    int *hist, *p_sum;
-   int r_size = 1000, s_size = 1000;
+   int r_size = 500, s_size = 500;
    int i;
 
-   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size);
+   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, main_R, main_S);
 
 
    hist = malloc(256 * sizeof(int));
@@ -69,6 +70,11 @@ int main(int argc, char *argv[]){
    // emfanisi(list);
    //lista_diagrafi(&list);
 
+
+
+
+    // free main_R
+    // free main_S
     free(hist);
     free(p_sum);
     free(Rr_1->tuples);
