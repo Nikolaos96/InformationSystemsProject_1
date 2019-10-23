@@ -108,12 +108,12 @@
 
      for(i = 0 ; i < (*Rr_1)->num_tuples ; i++){
          (*Rr_1)->tuples[i].key = (*main_R)[i][0];
-	 (*Rr_1)->tuples[i].payload = i+1;
+	 (*Rr_1)->tuples[i].payload = i;
      }
 
      for(i = 0 ; i < (*Ss_1)->num_tuples ; i++){
 	 (*Ss_1)->tuples[i].key = (*main_S)[i][0];
-	 (*Ss_1)->tuples[i].payload = i+1;
+	 (*Ss_1)->tuples[i].payload = i;
      }
  }
 
@@ -126,7 +126,7 @@
     for(i = 0 ; i < hist_size ; i++) hist[i] = 0;
 
     for(i = 0 ; i < r_size ; i++){
-         a = (*Rr_1)->tuples[i].key & 0x00000000000000ff;	////////////// thelei allagi se 0xff00000000000000
+         a = (*Rr_1)->tuples[i].key & 0xff00000000000000;	////////////// thelei allagi se 0xff00000000000000
 	 hist[a]++;
     }
  }
@@ -155,7 +155,7 @@
      int a, i, pos;
 
      for(i = 0 ; i < r_size ; i++){
-         a = (*Rr_1)->tuples[i].key & 0x00000000000000ff;	/////// thelei allagi se 0xff00000000000000
+         a = (*Rr_1)->tuples[i].key & 0xff00000000000000;	/////// thelei allagi se 0xff00000000000000
 	 pos = p_sum[a];
 
 	 (*Rr_2)->tuples[pos].key = (*Rr_1)->tuples[i].key;
@@ -164,6 +164,45 @@
 	 p_sum[a]++;
      }
  }
+
+
+
+ void sort(relation **Rr_1, relation **Rr_2, int r_size, int *hist, int *p_sum, int size_psum_hist){
+     int reapet, i;
+
+     for(reapet = 0 ; reapet < 7 ; reapet++){
+
+	for(i = 0 ; i < size_psum_hist ; i++){
+	    if( (hist[i] * 2 * 8) < (64 * 1024) ){
+
+		// quicksort sto bucket
+
+	    }else{
+	        
+
+	    }
+	}
+
+
+
+     }
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

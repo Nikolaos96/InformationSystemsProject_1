@@ -33,12 +33,10 @@ int main(int argc, char *argv[]){
    }
 
    make_hist(&Rr_1, r_size, &hist[0], 256);
-
    make_p_sum(&hist[0], 256, &p_sum[0], 256);
-
    make_Rr_2(&Rr_1, &Rr_2, r_size, &p_sum[0], 256);
 
-
+   sort(&Rr_1, &Rr_2, r_size, &hist[0], &p_sum[0], 256);
 /*
    for(i = 0 ; i < 70 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
    printf("\n\n");
