@@ -3,6 +3,7 @@
 #include "function.h"
 #include "lista.h"
 #include "stack.h"
+#include <limits.h>
 
 #define  MAX_BUCKET_SIZE 5		// kanonika 4096
 
@@ -37,6 +38,17 @@ int main(int argc, char *argv[]){
    make_Rr_2(&Rr_1, &Rr_2, r_size, &p_sum[0], 256);
 
    sort(&Rr_1, &Rr_2, r_size, &hist[0], &p_sum[0], 256);
+   
+   /*for(int i=0;i<r_size;i++) {
+       printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );    
+   } */
+   
+   recurseFunc(&Rr_1, &Rr_2, &p_sum[0], &hist[0]);
+
+      /*for(int i=0;i<256;i++) {
+         printf("%d\n", hist[i] ); 
+       } */
+   
 /*
    for(i = 0 ; i < 70 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
    printf("\n\n");

@@ -126,8 +126,8 @@
     for(i = 0 ; i < hist_size ; i++) hist[i] = 0;
 
     for(i = 0 ; i < r_size ; i++){
-         a = (*Rr_1)->tuples[i].key & 0xff00000000000000;	////////////// thelei allagi se 0xff00000000000000
-	 hist[a]++;
+         a = ( (*Rr_1)->tuples[i].key >> (8*7) ) & 0xff;	////////////// thelei allagi se 0xff00000000000000
+	       hist[a]++;
     }
  }
 
@@ -148,12 +148,13 @@
 */
      p_sum[0] = 0;
      for(i = 1 ; i < hist_size ; i++){
+     
 	if(hist[i] == 0){
 	    p_sum[i] = -1;
 	    continue;
 	}
 	int sum = 0;
-	for(j = 0 ; j < i ; j++) sum += hist[i];
+	for(j = 0 ; j < i ; j++) sum += hist[j];
 	p_sum[i] = sum;
      }
  }
@@ -166,8 +167,9 @@
      int a, i, pos;
 
      for(i = 0 ; i < r_size ; i++){
-         a = (*Rr_1)->tuples[i].key & 0xff00000000000000;	/////// thelei allagi se 0xff00000000000000
-	 pos = p_sum[a];
+         a = ((*Rr_1)->tuples[i].key >> (8*7) ) & 0xff;	/////// thelei allagi se 0xff00000000000000
+	       pos = p_sum[a];
+   
 
 	 (*Rr_2)->tuples[pos].key = (*Rr_1)->tuples[i].key;
 	 (*Rr_2)->tuples[pos].payload = (*Rr_1)->tuples[i].payload;
@@ -228,5 +230,21 @@
      }while( r < (*Rr)->num_tuples && s < (*Ss)->num_tuples );
 
  }
+ 
+ 
+ 
+ void recurseFunc(relation **Rr1, relation **Rr2, int* p_sum, int* hist) {
+   for(int i = 1; i <= 255; i++) {
+       p_sum[i] = p_sum[i] - hist[i];
+       if( hist[i] > 18 )  {
+           printf("%d has more than 4096 cells\n", i);
+       }  
+     
+   }
+ }
+ 
+ 
+ 
+ 
 
 
