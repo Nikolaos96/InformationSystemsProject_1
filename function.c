@@ -139,11 +139,22 @@
 //////
 //////
  void make_p_sum(int *hist, int hist_size, int *p_sum, int p_sum_size){
-     int i;
-
+     int i, j;
+/*
      p_sum[0] = 0;
      for(i = 1 ; i < hist_size ; i++){
          p_sum[i] = hist[i-1] + p_sum[i-1];
+     }
+*/
+     p_sum[0] = 0;
+     for(i = 1 ; i < hist_size ; i++){
+	if(hist[i] == 0){
+	    p_sum[i] = -1;
+	    continue;
+	}
+	int sum = 0;
+	for(j = 0 ; j < i ; j++) sum += hist[i];
+	p_sum[i] = sum;
      }
  }
 
