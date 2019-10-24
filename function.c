@@ -187,40 +187,35 @@
 
      }
 
-
-
-
-
  }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
  void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
-	/*
+
+     int mark = -1;
+     int r = 0, s = 0;
 
 
-     int index_r = 0, index_ s = 0;
      do{
+         if(mark == -1){
+	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key ) { r++; }
+	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key ) { s++; }
+	     mark = s;
+	 }
 
+	 if( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
+	     // eisagwgi stin lista to
+	     // (*Rr)->tuples[r].payload - (*Ss)->tuples[s].payload
+	     s++;
+	 }else{
+	     s = mark;
+	     r++;
+	     mark = -1;
+	 }
+     }while( r < (*Rr)->num_tuples && s < (*Ss)->num_tuples );
 
-     }while(index_r <= r_size && s_size <= s_size);
-
-
-
-	*/
  }
 
 

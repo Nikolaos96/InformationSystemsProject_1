@@ -11,7 +11,7 @@
 
 
  typedef struct typos_komvou{
- 	tuple *tuples;
+ 	int   **array;     // thelou pinaka 2D uint64_t 65500
 	int   index;
 	int   size;
 
@@ -35,18 +35,30 @@
 
  void eisagogi_komvou(info_deikti* linfo){
 
+	int i;
  	typos_deikti prosorinos;
  	prosorinos = malloc(sizeof(typos_komvou));
 
 
 
-	prosorinos->size = 65000;		//// megethos pinaka apo eggrafes    1024 x 1024 / 16 = 65536
-	prosorinos->tuples = malloc(prosorinos->size * sizeof(tuple));
-	prosorinos->index = 0;
-	if(prosorinos->tuples== NULL){
-		printf("Error in malloc array for results \n");
-		exit(-1);
+
+	prosorinos->size = 65000;
+	prosorinos->array = malloc(prosorinos->size * sizeof(int));
+	if(prosorinos->array == NULL){
+	    printf("Error malloc prosorinos->array  \n");
+	    exit(1);
 	}
+	for(i = 0 ; i < prosorinos->size ; i++){
+	    prosorinos->array[i] = malloc(2 * sizeof(int));
+	    if(prosorinos->array[i] == NULL){
+	        printf("Error malloc prosorinos->array[i]  \n");
+	    }
+	}
+	prosorinos->index = 0;
+
+
+
+
 
  	if((*linfo)->size == 0){
  		(*linfo)->arxi = prosorinos;
@@ -63,21 +75,19 @@
  }
 
 
- void eisagogi_eggrafis(info_deikti* linfo, tuple eggrafi){
+ void eisagogi_eggrafis(info_deikti* linfo, int a, int b){
 	//prepei na kanoume eisagwgi ston pinaka tou teleutaiou komvou
 	//an o pinakas autos einai gematos prepei na dimiourgisoume ne komvo kai na kanoume eisagwgi
 
 
 	typos_deikti mapas = (*linfo)->telos;
-	if(mapas->index == mapas->size - 1){	// elegxw an o pinakas tou komvou exei xoro
-	//den exei xoro					// xreiazomai mia metavliti index pou na mou deixmnei tin epomeni adeia thesi tou pinaka
-							 // wste na paw na grapsw tin nea eggrafi
+	if(mapas->index == mapas->size - 1){
 	    eisagogi_komvou(linfo);
-	    eisagogi_eggrafis(linfo, eggrafi);
+	    eisagogi_eggrafis(linfo, a, b);
 	}else{
 
-	    mapas->tuples[mapas->index].key = eggrafi.key;		//////////
-	    mapas->tuples[mapas->index].payload = eggrafi.key;		/////////
+	    mapas->array[mapas->index][0]  = a;
+	    mapas->array[mapas->index][1] = b;
 	    mapas->index++;
 	}
 
@@ -98,13 +108,14 @@
 
  void lista_diagrafi(info_deikti* linfo){
 
+	int i;
  	typos_deikti mapas = (*linfo)->arxi;
 	typos_deikti mapas2;
 
  	while(mapas != NULL){
 		mapas2 = mapas;
 		mapas = mapas->epomenos;
-		free(mapas2->tuples);
+		for(i = 0 ; i < mapas2->size ; i++) free(mapas2->array[i]);
 		free(mapas2);
 	}
 	(*linfo)->arxi = NULL;
@@ -113,6 +124,3 @@
 	free(*linfo);
 	(*linfo) = NULL;
  }
-
-
-/**/
