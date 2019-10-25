@@ -126,7 +126,7 @@
     for(i = 0 ; i < hist_size ; i++) hist[i] = 0;
 
     for(i = start ; i < end ; i++){
-         a = ( (*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;	
+         a = ( (*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;
 	       hist[a]++;
     }
  }
@@ -148,15 +148,15 @@
 */
      p_sum[0] = 0;
      for(i = 1 ; i < hist_size ; i++){
-     
+
 		if(hist[i] == 0){
 			p_sum[i] = -1;
 			continue;
 		}
 		int sum = 0;
-		for(j = 0 ; j < i ; j++) 
+		for(j = 0 ; j < i ; j++)
 			sum += hist[j];
-		
+
 		p_sum[i] = sum;
      }
  }
@@ -171,7 +171,7 @@
      for(i = start ; i < end ; i++){
          a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;	/////// thelei allagi se 0xff00000000000000
 	       pos = p_sum[a];
-   
+
 
 	 (*Rr_2)->tuples[pos].key = (*Rr_1)->tuples[i].key;
 	 (*Rr_2)->tuples[pos].payload = (*Rr_1)->tuples[i].payload;
@@ -179,32 +179,6 @@
 	 p_sum[a]++;
      }
  }
-
-
-
- void sort(relation **Rr_1, relation **Rr_2, int r_size, int *hist, int *p_sum, int size_psum_hist){
-     int reapet, i;
-
-     for(reapet = 0 ; reapet < 7 ; reapet++){
-
-	for(i = 0 ; i < size_psum_hist ; i++){
-	    if( (hist[i] * 2 * 8) < (64 * 1024) ){
-
-		// quicksort sto bucket
-
-	    }else{
-	        
-
-	    }
-	}
-
-
-
-     }
-
- }
-
-
 
 
  void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
@@ -232,34 +206,36 @@
      }while( r < (*Rr)->num_tuples && s < (*Ss)->num_tuples );
 
  }
- 
- 
+
+
 
 int partition (relation **Rr, int low, int high) {
-	int pivot = (*Rr)->tuples[high].key;
+	uint64_t pivot = (*Rr)->tuples[high].key;
 	int i = (low - 1);
+  uint64_t tempKey;
+  uint64_t tempPayload;
 	for (int j = low; j <= high- 1; j++) {
-		if ((*Rr)->tuples[j].key <= pivot) {
+		if ((*Rr)->tuples[j].key < pivot) { //<=
 			i++;
-			uint64_t tempKey = (*Rr)->tuples[i].key;
-			uint64_t tempPayload = (*Rr)->tuples[i].payload;
+			 tempKey = (*Rr)->tuples[i].key;
+		   tempPayload = (*Rr)->tuples[i].payload;
 			(*Rr)->tuples[i].key = (*Rr)->tuples[j].key;
 			(*Rr)->tuples[i].payload = (*Rr)->tuples[j].payload;
-			
+
 			(*Rr)->tuples[j].key = tempKey;
-			(*Rr)->tuples[j].payload = tempPayload;		
+			(*Rr)->tuples[j].payload = tempPayload;
 		}
 	}
 	//swap(&arr[i + 1], &arr[high]);
-	uint64_t tempKey = (*Rr)->tuples[i + 1].key;
-	uint64_t tempPayload = (*Rr)->tuples[i + 1].payload;
-	(*Rr)->tuples[i+ 1].key = (*Rr)->tuples[high].key;
-	(*Rr)->tuples[i + 1].payload = (*Rr)->tuples[high].payload;	
+	tempKey = (*Rr)->tuples[i + 1].key;
+  tempPayload = (*Rr)->tuples[i + 1].payload;
+	(*Rr)->tuples[i + 1].key = (*Rr)->tuples[high].key;
+	(*Rr)->tuples[i + 1].payload = (*Rr)->tuples[high].payload;
 	(*Rr)->tuples[high].key = tempKey;
-	(*Rr)->tuples[high].payload = tempPayload;		
+	(*Rr)->tuples[high].payload = tempPayload;
 	return (i + 1);
 }
-	
+
 void quickSort(relation **Rr, int low, int high) {
 	if (low < high) {
 		int pi = partition(Rr, low, high);
@@ -269,7 +245,7 @@ void quickSort(relation **Rr, int low, int high) {
 }
 
  int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
-   if( end - start >= 4096 ) {     // 4096 
+   if( end - start >= 18 ) {     // 4096
 		printf("RECURSIVE %d %d \n " ,start, end );
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
@@ -283,61 +259,55 @@ void quickSort(relation **Rr, int low, int high) {
 		   return -1;
 	   }
 
-		 
+
 	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
-		
-	   
+
+
 		bytePos--;
-	   
+
 	   for(int i = 0; i < 256; i++) {
-		   
+
 			if( hist[i] == 0)
 				continue;
 			else {
-				if( bytePos > 0) {	
+				if( bytePos > 0) {
 					//if( i == 255)
 					printf("p_sum= %d, hist[i]= %d, i= %d, bytePos = %d\n", p_sum[i], hist[i], i, bytePos);
-					recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);	
+					recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
 				}
 			    else {
-				  // QUICKSORT 
+				  // QUICKSORT
 				  //printf("QUICKSORT");
 				  quickSort(Rr_2, start, end);
-				  
+
 				  for(int k = start; k < end; k++) {
 					(*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
 					(*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;
 				  }
-				 
+
 			    }
-				
+
 			}
-			
+
 	   }
-	   
-	   
+
+
 	    free(p_sum);
 		free(hist);
    }
    else {
-	  // QUICKSORT 
+	  // QUICKSORT
 	  quickSort(Rr_1, start, end);
 	  for(int k = start; k < end; k++) {
 		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
 		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
-	  }	  
+	  }
    }
- 
-   
- 
-   
+
+
+
+
  }
- 
- 
- 
- 
-
-

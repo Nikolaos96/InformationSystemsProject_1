@@ -23,19 +23,20 @@ int main(int argc, char *argv[]){
 
 
 	recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
-	
-   
+  //quickSort(&Rr_1,0,499);
+
+
    for(int i=0;i<r_size;i++) {
-      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );  
-		printf("%lu\n",  Rr_1->tuples[i].key ); 	  
-   } 
-   
-   
+      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );
+		printf("%lu\n",  Rr_1->tuples[i].key );
+   }
+
+
 
       /*for(int i=0;i<256;i++) {
-         printf("%d\n", hist[i] ); 
+         printf("%d\n", hist[i] );
        } */
-   
+
 /*
    for(i = 0 ; i < 70 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
    printf("\n\n");
