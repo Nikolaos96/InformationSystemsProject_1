@@ -120,12 +120,12 @@
 
 
 
- void make_hist(relation **Rr_1, int r_size, int *hist, int hist_size){
+ void make_hist(relation **Rr_1, int start, int end, int *hist, int hist_size){
     int i, a;
 
     for(i = 0 ; i < hist_size ; i++) hist[i] = 0;
 
-    for(i = 0 ; i < r_size ; i++){
+    for(i = start ; i < end ; i++){
          a = ( (*Rr_1)->tuples[i].key >> (8*7) ) & 0xff;	////////////// thelei allagi se 0xff00000000000000
 	       hist[a]++;
     }
@@ -163,11 +163,11 @@
 
 
 
- void make_Rr_2(relation **Rr_1, relation **Rr_2, int r_size, int *p_sum, int p_sum_size){
+ void make_Rr_2(relation **Rr_1, relation **Rr_2,  int start, int end, int *p_sum, int p_sum_size, int bytePos){
      int a, i, pos;
 
-     for(i = 0 ; i < r_size ; i++){
-         a = ((*Rr_1)->tuples[i].key >> (8*7) ) & 0xff;	/////// thelei allagi se 0xff00000000000000
+     for(i = start ; i < end ; i++){
+         a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;	/////// thelei allagi se 0xff00000000000000
 	       pos = p_sum[a];
    
 
@@ -233,14 +233,41 @@
  
  
  
- void recurseFunc(relation **Rr1, relation **Rr2, int* p_sum, int* hist) {
+ int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
+	 
+   int *hist, *p_sum;
+   hist = malloc(256 * sizeof(int));
+   if(hist == NULL){
+       printf("Error malloc hist \n");
+       return -1;
+   }
+   p_sum = malloc(256 * sizeof(int));
+   if(p_sum == NULL){
+       printf("Error malloc p_sum \n");
+       return -1;
+   }
+
+	 
+   make_hist(Rr_1, start, end, &hist[0], 256);
+   make_p_sum(&hist[0], 256, &p_sum[0], 256);
+   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, --bytePos);
+
+   
    for(int i = 1; i <= 255; i++) {
        p_sum[i] = p_sum[i] - hist[i];
        if( hist[i] > 18 )  {
            printf("%d has more than 4096 cells\n", i);
+           
+           recurseFunc(relation **Rr1, relation **Rr2, int* p_sum, int* hist);
        }  
      
+   } 
+   
+   for(int i = 0; i < 500; i++) {
+	   //printf("%d \n", hist[i]);
+	   printf("%ld \n", ((*Rr_2)->tuples[i].key >> (8*7)) & 0xff );	   
    }
+   
  }
  
  

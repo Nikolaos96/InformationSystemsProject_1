@@ -14,7 +14,6 @@ int main(int argc, char *argv[]){
    relation *Ss_1, *Ss_2;
    uint64_t **main_R, **main_S; // megethos 500 kai oi duo
 
-   int *hist, *p_sum;
    int r_size = 500, s_size = 500;
    int i;
 
@@ -22,28 +21,14 @@ int main(int argc, char *argv[]){
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S);
 
 
-   hist = malloc(256 * sizeof(int));
-   if(hist == NULL){
-       printf("Error malloc hist \n");
-       return -1;
-   }
-   p_sum = malloc(256 * sizeof(int));
-   if(p_sum == NULL){
-       printf("Error malloc p_sum \n");
-       return -1;
-   }
 
-   make_hist(&Rr_1, r_size, &hist[0], 256);
-   make_p_sum(&hist[0], 256, &p_sum[0], 256);
-   make_Rr_2(&Rr_1, &Rr_2, r_size, &p_sum[0], 256);
-
-   sort(&Rr_1, &Rr_2, r_size, &hist[0], &p_sum[0], 256);
+	recurseFunc(&Rr_1, &Rr_2, 0, r_size, 8);
    
    /*for(int i=0;i<r_size;i++) {
        printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );    
    } */
    
-   recurseFunc(&Rr_1, &Rr_2, &p_sum[0], &hist[0]);
+   
 
       /*for(int i=0;i<256;i++) {
          printf("%d\n", hist[i] ); 
@@ -95,8 +80,7 @@ int main(int argc, char *argv[]){
 
     // free main_R
     // free main_S
-    free(hist);
-    free(p_sum);
+
     free(Rr_1->tuples);
     free(Rr_1);
     free(Rr_2->tuples);
