@@ -2,22 +2,6 @@
 #include "function.h"
 #include <stdio.h>
 
- int64_t produce_random(void){
-     int64_t a, b;
-     a = rand();
-     a = a << 16;
-     b = rand();
-     a = a | b;
-     b = rand();
-     a = a << 16;
-     a = a | b;
-
-     // return a;
-     return rand() % 256;
- }
-
-
-
 
 
  void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s,
@@ -83,9 +67,9 @@
 
 
      *Rr_1 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Rr_1 \n"); exit(1); }
-     *Rr_2 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Rr_2 \n"); exit(1); }
-     *Ss_1 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Ss_1 \n"); exit(1); }
-     *Ss_2 = malloc(sizeof(relation));  if(*Rr_1 == NULL){ printf("Error malloc Ss_2 \n"); exit(1); }
+     *Rr_2 = malloc(sizeof(relation));  if(*Rr_2 == NULL){ printf("Error malloc Rr_2 \n"); exit(1); }
+     *Ss_1 = malloc(sizeof(relation));  if(*Ss_1 == NULL){ printf("Error malloc Ss_1 \n"); exit(1); }
+     *Ss_2 = malloc(sizeof(relation));  if(*Ss_2 == NULL){ printf("Error malloc Ss_2 \n"); exit(1); }
 
 
      (*Rr_1)->num_tuples = size_r;
@@ -120,14 +104,17 @@
 
 
 
+
+
+
  void make_hist(relation **Rr_1, int start, int end, int *hist, int hist_size, int bytePos){
     int i, a;
 
     for(i = 0 ; i < hist_size ; i++) hist[i] = 0;
 
     for(i = start ; i < end ; i++){
-         a = ( (*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;
-	       hist[a]++;
+         a = ( (*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0x00000000000000ff;
+	 hist[a]++;
     }
  }
 
@@ -135,18 +122,11 @@
 
 
 
- // ti kanoume an kappoi hist einai 0  ///////
-//////
-//////
- void make_p_sum(int *hist, int hist_size, int *p_sum, int p_sum_size){
+ void make_p_sum(int *hist, int hist_size, int *p_sum, int p_sum_size, int start){
      int i, j;
-/*
-     p_sum[0] = 0;
-     for(i = 1 ; i < hist_size ; i++){
-         p_sum[i] = hist[i-1] + p_sum[i-1];
-     }
-*/
-     p_sum[0] = 0;
+
+     if(hist[0] != 0) p_sum[0] = start; //// eixame 0
+     else p_sum[0] = -1;
      for(i = 1 ; i < hist_size ; i++){
 
 		if(hist[i] == 0){
@@ -157,7 +137,7 @@
 		for(j = 0 ; j < i ; j++)
 			sum += hist[j];
 
-		p_sum[i] = sum;
+		p_sum[i] = sum + start;	///////// prostheto to start
      }
  }
 
@@ -169,7 +149,7 @@
      int a, i, pos;
 
      for(i = start ; i < end ; i++){
-         a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0xff;	/////// thelei allagi se 0xff00000000000000
+         a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0x00000000000000ff;	/////////////////////
 	       pos = p_sum[a];
 
 
@@ -209,11 +189,12 @@
 
 
 
-int partition (relation **Rr, int low, int high) {
+ int partition (relation **Rr, int low, int high) {
 	uint64_t pivot = (*Rr)->tuples[high].key;
 	int i = (low - 1);
-  uint64_t tempKey;
-  uint64_t tempPayload;
+        uint64_t tempKey;
+        uint64_t tempPayload;
+
 	for (int j = low; j <= high- 1; j++) {
 		if ((*Rr)->tuples[j].key < pivot) { //<=
 			i++;
@@ -228,25 +209,31 @@ int partition (relation **Rr, int low, int high) {
 	}
 	//swap(&arr[i + 1], &arr[high]);
 	tempKey = (*Rr)->tuples[i + 1].key;
-  tempPayload = (*Rr)->tuples[i + 1].payload;
+        tempPayload = (*Rr)->tuples[i + 1].payload;
 	(*Rr)->tuples[i + 1].key = (*Rr)->tuples[high].key;
 	(*Rr)->tuples[i + 1].payload = (*Rr)->tuples[high].payload;
 	(*Rr)->tuples[high].key = tempKey;
 	(*Rr)->tuples[high].payload = tempPayload;
 	return (i + 1);
-}
+ }
 
-void quickSort(relation **Rr, int low, int high) {
+
+
+ void quickSort(relation **Rr, int low, int high) {
 	if (low < high) {
 		int pi = partition(Rr, low, high);
 		quickSort(Rr, low, pi - 1);
 		quickSort(Rr, pi + 1, high);
 	}
-}
+ }
+
+
 
  int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
    if( end - start >= 18 ) {     // 4096
-		printf("RECURSIVE %d %d \n " ,start, end );
+
+  	  printf("RECURSIVE %d %d  \\\\\\\\\\\\\\\\\\\\\\\\\\  \n " ,start, end );
+
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
 	   if(hist == NULL){
@@ -261,50 +248,49 @@ void quickSort(relation **Rr, int low, int high) {
 
 
 	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
-	   make_p_sum(&hist[0], 256, &p_sum[0], 256);
+	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start); //////////// evala to start
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
 
 
-		bytePos--;
+	   relation *temp = *Rr_1;	////////  1
+	   *Rr_1 = *Rr_2;		///////// 2
+	   *Rr_2 = temp;		///////// 3
+
+
+	   bytePos--;
 
 	   for(int i = 0; i < 256; i++) {
 
 			if( hist[i] == 0)
-				continue;
-			else {
-				if( bytePos > 0) {
-					//if( i == 255)
-					printf("p_sum= %d, hist[i]= %d, i= %d, bytePos = %d\n", p_sum[i], hist[i], i, bytePos);
-					recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
-				}
-			    else {
-				  // QUICKSORT
-				  //printf("QUICKSORT");
-				  quickSort(Rr_2, start, end);
-
-				  for(int k = start; k < end; k++) {
-					(*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
-					(*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;
-				  }
+			    continue;
+			else{
+			    if( bytePos > 0) {
+				//if( i == 255)
+				printf("p_sum= %d, hist[i]= %d, i= %d, bytePos = %d\n", p_sum[i], hist[i], i, bytePos);
+				//recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
+				recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
+			    }else{
+				//quickSort(Rr_2, start, end);
+				quickSort(Rr_1, start, end);			//////////////////// 4
+//				for(int k = start; k < end; k++) {				// 5
+//				    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;		// 6
+//				    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;	// 7
+//				}
 
 			    }
-
 			}
-
 	   }
 
-
-	    free(p_sum);
-		free(hist);
-   }
-   else {
+	   free(p_sum);
+	   free(hist);
+   }else{
 	  // QUICKSORT
 	  quickSort(Rr_1, start, end);
-	  for(int k = start; k < end; k++) {
-		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
-		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
-	  }
+//	  for(int k = start; k < end; k++) {					// 8
+//		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;		// 9
+//		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;	// 10
+//	  }
    }
 
 

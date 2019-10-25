@@ -31,39 +31,10 @@ int main(int argc, char *argv[]){
 		printf("%lu\n",  Rr_1->tuples[i].key );
    }
 
-
-
-      /*for(int i=0;i<256;i++) {
-         printf("%d\n", hist[i] );
-       } */
-
-/*
-   for(i = 0 ; i < 70 ; i++) printf("%ld \n", Rr_2->tuples[i].key);
-   printf("\n\n");
-   for(i = 0 ; i < 10 ; i++) printf("%d \n", hist[i]);
-*/
-/*
-   int hist_value, start_bucket, end_bucket;
-   for(int i = 0 ; i < 256 ; i++){
-
-       if(hist[i] > MAX_BUCKET_SIZE){
-	   hist_value = hist[i];
-	   start_bucket = p_sum[i] - hist_value;   	// start_bucket = hist[i]
-	   end_bucket = start_bucket + hist_value - 1; 	// end_bucket = p_sum[i]
-	   //printf("start  %d \n", start_bucket);
-	   //printf("end    %d \n", end_bucket);
-       }
-
-
-   }
-*/
-
-
-
-
-
-
-
+//   for(int i=0;i<r_size;i++) {
+      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );
+//                printf("%lu\n",  Rr_2->tuples[i].key );
+//   }
 
 
    //info_deikti list;
@@ -74,22 +45,20 @@ int main(int argc, char *argv[]){
 
 
 
-
-
-
-
-
     // ola ta free na mpoun se sinartisi
-
+    //
     // free main_R
     // free main_S
 
     free(Rr_1->tuples);
     free(Rr_1);
-    free(Rr_2->tuples);
-    free(Rr_2);
-    free(Ss_1->tuples);
-    free(Ss_1);
+
+    free(Rr_2->tuples);	///////
+    free(Rr_2);		///////
+
+    free(Ss_1->tuples);	//
+    free(Ss_1);		//
+
     free(Ss_2->tuples);
     free(Ss_2);
 
