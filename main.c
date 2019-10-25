@@ -22,11 +22,13 @@ int main(int argc, char *argv[]){
 
 
 
-	recurseFunc(&Rr_1, &Rr_2, 0, r_size, 8);
+	recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
+	
    
-   /*for(int i=0;i<r_size;i++) {
-       printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );    
-   } */
+   for(int i=0;i<r_size;i++) {
+      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );  
+		printf("%lu\n",  Rr_1->tuples[i].key ); 	  
+   } 
    
    
 
