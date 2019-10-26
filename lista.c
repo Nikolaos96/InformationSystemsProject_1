@@ -74,8 +74,9 @@
 	//prepei na kanoume eisagwgi ston pinaka tou teleutaiou komvou
 	//an o pinakas autos einai gematos prepei na dimiourgisoume ne komvo kai na kanoume eisagwgi
 
-
+        if((*linfo)->telos == NULL) eisagogi_komvou(linfo);
 	typos_deikti mapas = (*linfo)->telos;
+
 	if(mapas->index == mapas->size){
 	    eisagogi_komvou(linfo);
 	    eisagogi_eggrafis(linfo, a, b);
@@ -93,11 +94,10 @@
  void emfanisi(info_deikti* linfo){
 
 	typos_deikti mapas = (*linfo)->arxi;
-    printf("Table R  -  Table S  \n\n");
+        printf("Table R  -  Table S  \n\n");
  	while(mapas != NULL){
- 	    for(int i = 0 ; i < mapas->index ; i++)
- 	        printf("%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
-		mapas = mapas->epomenos;
+ 	    for(int i = 0 ; i < mapas->index ; i++) printf("%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
+	    mapas = mapas->epomenos;
  	}
  }
 
@@ -106,18 +106,22 @@
  void lista_diagrafi(info_deikti* linfo){
 
 	int i;
- 	typos_deikti mapas = (*linfo)->arxi;
-	typos_deikti mapas2;
 
- 	while(mapas != NULL){
+        if((*linfo)->arxi != NULL){
+
+ 	    typos_deikti mapas = (*linfo)->arxi;
+	    typos_deikti mapas2;
+
+ 	    while(mapas != NULL){
 		mapas2 = mapas;
 		mapas = mapas->epomenos;
 		for(i = 0 ; i < mapas2->size ; i++) free(mapas2->array[i]);
 		free(mapas2);
-	}
-	(*linfo)->arxi = NULL;
-	(*linfo)->telos = NULL;
-	(*linfo)->size = 0;
+	    }
+	    (*linfo)->arxi = NULL;
+	    (*linfo)->telos = NULL;
+	    (*linfo)->size = 0;
+        }
 	free(*linfo);
 	(*linfo) = NULL;
  }

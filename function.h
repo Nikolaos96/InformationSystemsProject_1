@@ -17,7 +17,7 @@ void make_Rr_2(relation **Rr_1, relation **Rr_2, int start, int end, int *p_sum,
 
 int partition (relation **Rr, int low, int high);
 void quickSort(relation **Rr, int low, int high);
-int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos);
+void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos);
 
 
 void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list);

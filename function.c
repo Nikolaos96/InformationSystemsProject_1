@@ -4,8 +4,6 @@
 
 /*
 
-
-
 */
  void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s,
 			    uint64_t ***main_R, uint64_t ***main_S){
@@ -53,7 +51,7 @@
 	 fscanf(f1, "%lu", &(*main_R)[i][4]);
      }
      fclose(f1);
-     f2 = fopen("table_S.txt", "r");
+     f2 = fopen("table_R.txt", "r");				////////////
      if(f2 == NULL){
          printf("File table_S.txt doesn't exist. \n");
          exit(1);
@@ -205,19 +203,20 @@
 /*
 
 */
- int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
-   if( end - start >= 18 ) {     // 4096
+ void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
+
+     if( end - start >= 18 ) {     // 4096
 
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
 	   if(hist == NULL){
 		   printf("Error malloc hist \n");
-		   return -1;
+		   exit(1);
 	   }
 	   p_sum = malloc(256 * sizeof(int));
 	   if(p_sum == NULL){
 		   printf("Error malloc p_sum \n");
-		   return -1;
+		   exit(1);
 	   }
 
 
@@ -225,45 +224,28 @@
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start); //////////// evala to start
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
-
-	   relation *temp = *Rr_1;	////////  1
-	   *Rr_1 = *Rr_2;		///////// 2
-	   *Rr_2 = temp;		///////// 3
-
+	   relation *temp = *Rr_1;
+	   *Rr_1 = *Rr_2;
+	   *Rr_2 = temp;
 
 	   bytePos--;
 
 	   for(int i = 0; i < 256; i++) {
-
-			if( hist[i] == 0)
-			    continue;
-			else{
-			    if( bytePos > 0) {
-				//recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
-				recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
-			    }else{
-				//quickSort(Rr_2, start, end);
-				quickSort(Rr_1, start, end - 1);			//////////////////// 4
-//				for(int k = start; k < end; k++) {				// 5      den xreiazetai auto
-//				    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;		// 6
-//				    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;	// 7
-//				}
-
-			    }
-			}
+		if( hist[i] == 0)
+		    continue;
+		else{
+		    if( bytePos > 0) recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
+		    else	     quickSort(Rr_1, start, end - 1);
+		}
 	   }
 
 	   free(p_sum);
 	   free(hist);
-   }else{
+     }else{
 	  quickSort(Rr_1, start, end - 1);
-//	  for(int k = start; k < end; k++) {					// 8    den xreiazetai auto
-//		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;		// 9
-//		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;	// 10
-//	  }
-   }
+     }
 
-
+     return;
  }
 
 
@@ -274,7 +256,6 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
 
      int mark = -1;
      int r = 0, s = 0;
-
 
      do{
          if(mark == -1){
@@ -293,6 +274,7 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
 	 }
      }while( r < (*Rr)->num_tuples && s < (*Ss)->num_tuples );
 
+     return;
  }
 
 
@@ -309,19 +291,15 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
      free(*main_S);
 
 
-     for(i = 0 ; i < r_size ; i++){
-         free((*Rr_1)->tuples[i]);
-	 free((*Rr_2)->tuples[i]);
-     }
-     free(*Rr_1);
-     free(*Rr_2);
+    free((*Rr_1)->tuples);
+    free(*Rr_1);
+    free((*Rr_2)->tuples);
+    free(*Rr_2);
 
-     for(i = 0 ; i < s_size ; i++){
-	 free((*Ss_1)->tuples[i]);
-	 free((*Ss_2)->tuples[i]);
-     }
-     free(*Ss_1);
-     free(*Ss_2);
+    free((*Ss_1)->tuples);
+    free(*Ss_1);
+    free((*Ss_2)->tuples);
+    free(*Ss_2);
 
      return;
  }

@@ -1,7 +1,6 @@
 /* main.c */
 #include "function.h"
 #include "lista.h"
-#include "stack.h"
 #include <limits.h>
 
 #define  MAX_BUCKET_SIZE 5		// kanonika 4096
@@ -22,19 +21,18 @@ int main(int argc, char *argv[]){
    recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
 
 
-   for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
-   printf("\n\n\n");
-   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
+//   for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
+//   printf("\n\n\n");
+//   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
-   //info_deikti list = NULL;
-   //list = LIST_dimiourgia(&list);
-   //Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);
-   //emfanisi(&list);
-   //lista_diagrafi(&list);
+   info_deikti list = NULL;
+   list = LIST_dimiourgia(&list);
+   Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);
+   emfanisi(&list);
+   lista_diagrafi(&list);
 
+   delete_all_array(&main_R, &Rr_1, &Rr_2, r_size, &main_S, &Ss_1, &Ss_2, s_size);
 
-    //delete_all_array(&main_R, &Rr_1, &Rr_2, r_size, &main_S, &Ss_1, &Ss_2, s_size);
-
-    return 0;
+   return 0;
 }
