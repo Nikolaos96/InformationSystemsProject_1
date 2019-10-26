@@ -16,7 +16,6 @@ int main(int argc, char *argv[]){
    int r_size = 500, s_size = 500;
    int i;
 
-
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S);
 
    recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
@@ -30,8 +29,8 @@ int main(int argc, char *argv[]){
 
    //info_deikti list = NULL;
    //list = LIST_dimiourgia(&list);
-   //Sort_Merge_Join(...................., &list);
-   // emfanisi(list);
+   //Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);
+   //emfanisi(&list);
    //lista_diagrafi(&list);
 
 
