@@ -1,5 +1,4 @@
 /* main.c */
-#include <stdio.h>
 #include "function.h"
 #include "lista.h"
 #include "stack.h"
@@ -20,47 +19,23 @@ int main(int argc, char *argv[]){
 
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S);
 
+   recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
+   recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
 
 
-	recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
-  //quickSort(&Rr_1,0,499);
+   for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
+   printf("\n\n\n");
+   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
-   for(int i=0;i<r_size;i++) {
-      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );
-		printf("%lu\n",  Rr_1->tuples[i].key );
-   }
-
-//   for(int i=0;i<r_size;i++) {
-      // printf("%lu\n",  (Rr_2->tuples[i].key >> (8*7)) & 0xff );
-//                printf("%lu\n",  Rr_2->tuples[i].key );
-//   }
-
-
-   //info_deikti list;
+   //info_deikti list = NULL;
    //list = LIST_dimiourgia(&list);
    //Sort_Merge_Join(...................., &list);
    // emfanisi(list);
    //lista_diagrafi(&list);
 
 
-
-    // ola ta free na mpoun se sinartisi
-    //
-    // free main_R
-    // free main_S
-
-    free(Rr_1->tuples);
-    free(Rr_1);
-
-    free(Rr_2->tuples);	///////
-    free(Rr_2);		///////
-
-    free(Ss_1->tuples);	//
-    free(Ss_1);		//
-
-    free(Ss_2->tuples);
-    free(Ss_2);
+    //delete_all_array(&main_R, &Rr_1, &Rr_2, r_size, &main_S, &Ss_1, &Ss_2, s_size);
 
     return 0;
 }
