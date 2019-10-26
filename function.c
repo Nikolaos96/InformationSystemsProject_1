@@ -105,8 +105,6 @@
 
 
 
-
-
  void make_hist(relation **Rr_1, int start, int end, int *hist, int hist_size, int bytePos){
     int i, a;
 
@@ -196,7 +194,7 @@
         uint64_t tempPayload;
 
 	for (int j = low; j <= high- 1; j++) {
-		if ((*Rr)->tuples[j].key < pivot) { //<=
+		if ((*Rr)->tuples[j].key < pivot) { // merikoi grafoun <=
 			i++;
 			 tempKey = (*Rr)->tuples[i].key;
 		   tempPayload = (*Rr)->tuples[i].payload;
@@ -207,7 +205,6 @@
 			(*Rr)->tuples[j].payload = tempPayload;
 		}
 	}
-	//swap(&arr[i + 1], &arr[high]);
 	tempKey = (*Rr)->tuples[i + 1].key;
         tempPayload = (*Rr)->tuples[i + 1].payload;
 	(*Rr)->tuples[i + 1].key = (*Rr)->tuples[high].key;
@@ -232,8 +229,6 @@
  int recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
    if( end - start >= 18 ) {     // 4096
 
-  	  printf("RECURSIVE %d %d  \\\\\\\\\\\\\\\\\\\\\\\\\\  \n " ,start, end );
-
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
 	   if(hist == NULL){
@@ -252,7 +247,6 @@
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
 
-
 	   relation *temp = *Rr_1;	////////  1
 	   *Rr_1 = *Rr_2;		///////// 2
 	   *Rr_2 = temp;		///////// 3
@@ -266,13 +260,11 @@
 			    continue;
 			else{
 			    if( bytePos > 0) {
-				//if( i == 255)
-				printf("p_sum= %d, hist[i]= %d, i= %d, bytePos = %d\n", p_sum[i], hist[i], i, bytePos);
 				//recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
 				recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
 			    }else{
 				//quickSort(Rr_2, start, end);
-				quickSort(Rr_1, start, end);			//////////////////// 4
+				quickSort(Rr_1, start, end - 1);			//////////////////// 4
 //				for(int k = start; k < end; k++) {				// 5
 //				    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;		// 6
 //				    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;	// 7
@@ -285,15 +277,12 @@
 	   free(p_sum);
 	   free(hist);
    }else{
-	  // QUICKSORT
-	  quickSort(Rr_1, start, end);
+	  quickSort(Rr_1, start, end - 1);
 //	  for(int k = start; k < end; k++) {					// 8
 //		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;		// 9
 //		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;	// 10
 //	  }
    }
-
-
 
 
  }
