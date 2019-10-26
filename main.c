@@ -1,24 +1,21 @@
 /* main.c */
 #include "function.h"
 #include "lista.h"
-#include <limits.h>
-
-#define  MAX_BUCKET_SIZE 5		// kanonika 4096
 
 
 
 int main(int argc, char *argv[]){
    relation *Rr_1, *Rr_2;
    relation *Ss_1, *Ss_2;
-   uint64_t **main_R, **main_S; // megethos 500 kai oi duo
+   uint64_t **main_R, **main_S;
+   char *table_R, *table_S;
+   int r_size, s_size, i;
 
-   int r_size = 500, s_size = 500;
-   int i;
 
-   // na dinoume apo tin grammi entolwn ta arxeia kai ta megethoi tous
-   // p.x.  main -f1 table_R.txt -s1 500 -f2 table_S.txt -s2 500
 
-   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S);
+   take_arguments(argc, argv, &table_R, &r_size, &table_S, &s_size);
+
+   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S, table_R, table_S);
 
    recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
    recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
@@ -35,7 +32,7 @@ int main(int argc, char *argv[]){
    emfanisi(&list);
    lista_diagrafi(&list);
 
-   delete_all_array(&main_R, &Rr_1, &Rr_2, r_size, &main_S, &Ss_1, &Ss_2, s_size);
+   delete_all_array(&main_R, &Rr_1, &Rr_2, r_size, &main_S, &Ss_1, &Ss_2, s_size, &table_R, &table_S);
 
    return 0;
 }

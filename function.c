@@ -2,11 +2,44 @@
 #include "function.h"
 
 
-/*
 
-*/
+ /*
+ */
+ void take_arguments(int argc,char *argv[],char **file1, int *s_file1, char **file2, int *s_file2){
+
+    char *arg;
+    if(argc != 9 ){
+        printf("\nError in arguments command line. \n\n");
+        exit(1);
+    }
+
+    while(--argc){
+        arg = *++argv;
+        if(!strcmp(arg, "-f1")){
+	  *file1 = malloc((strlen(*++argv) + 1) * sizeof(char));
+	  strcpy(*file1, *argv);
+        }else if(!strcmp(arg, "-s1")){
+	    *s_file1 = atoi(*++argv);
+
+        }else if(!strcmp(arg, "-f2")){
+	    *file2 = malloc((strlen(*++argv) + 1) * sizeof(char));
+	    strcpy(*file2, *argv);
+        }else if(!strcmp(arg, "-s2")){
+	    *s_file2 = atoi(*++argv);
+	}
+
+        if(argc > 1) argc--;
+     }
+
+     return;
+ }
+
+
+ /*
+
+ */
  void create_init_relations(relation **Rr_1, relation **Rr_2, relation **Ss_1, relation **Ss_2, int size_r, int size_s,
-			    uint64_t ***main_R, uint64_t ***main_S){
+			    uint64_t ***main_R, uint64_t ***main_S, char *table_R, char *table_S){
 
      int i;
 
@@ -29,7 +62,7 @@
 	 exit(1);
      }
      for(i = 0 ; i < size_s ; i++){
-         (*main_S)[i] = malloc(5 * sizeof(uint64_t));	// 5 stiles
+         (*main_S)[i] = malloc(5 * sizeof(uint64_t));
 	 if((*main_S)[i] == NULL){
 	     printf("Error malloc main_S[i] \n");
 	     exit(1);
@@ -38,9 +71,9 @@
 
 
      FILE *f1, *f2;
-     f1 = fopen("table_R.txt", "r");
+     f1 = fopen(table_R, "r");
      if(f1 == NULL){
-	 printf("File table_R.txt doesn't exist. \n");
+	 printf("File %s doesn't exist. \n", table_R);
 	 exit(1);
      }
      for(i = 0 ; i < size_r ; i++){
@@ -51,9 +84,9 @@
 	 fscanf(f1, "%lu", &(*main_R)[i][4]);
      }
      fclose(f1);
-     f2 = fopen("table_R.txt", "r");				////////////
+     f2 = fopen(table_S, "r");
      if(f2 == NULL){
-         printf("File table_S.txt doesn't exist. \n");
+         printf("File %s doesn't exist. \n", table_S);
          exit(1);
      }
      for(i = 0 ; i < size_s ; i++){
@@ -122,7 +155,7 @@
  void make_p_sum(int *hist, int hist_size, int *p_sum, int p_sum_size, int start){
      int i, j;
 
-     if(hist[0] != 0) p_sum[0] = start; //// eixame 0
+     if(hist[0] != 0) p_sum[0] = start;
      else p_sum[0] = -1;
      for(i = 1 ; i < hist_size ; i++){
 
@@ -134,7 +167,7 @@
 		for(j = 0 ; j < i ; j++)
 			sum += hist[j];
 
-		p_sum[i] = sum + start;	///////// prostheto to start
+		p_sum[i] = sum + start;
      }
  }
 
@@ -146,7 +179,7 @@
      int a, i, pos;
 
      for(i = start ; i < end ; i++){
-         a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0x00000000000000ff;	/////////////////////
+         a = ((*Rr_1)->tuples[i].key >> (8*bytePos) ) & 0x00000000000000ff;
 	       pos = p_sum[a];
 
 	 (*Rr_2)->tuples[pos].key = (*Rr_1)->tuples[i].key;
@@ -205,7 +238,7 @@
 */
  void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
 
-     if( end - start >= 18 ) {     // 4096
+     if( end - start > 1000 ) {     // 4096   thelei allagi
 
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
@@ -221,7 +254,7 @@
 
 
 	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
-	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start); //////////// evala to start
+	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
 	   relation *temp = *Rr_1;
@@ -281,8 +314,12 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
  /*
 
  */
- void delete_all_array(uint64_t ***main_R, relation **Rr_1, relation **Rr_2, int r_size, uint64_t ***main_S, relation **Ss_1, relation **Ss_2, int s_size){
+ void delete_all_array(uint64_t ***main_R, relation **Rr_1, relation **Rr_2, int r_size, uint64_t ***main_S, relation **Ss_1,
+		       relation **Ss_2, int s_size, char **file1, char **file2){
      int i;
+
+     free(*file1);
+     free(*file2);
 
      for(i = 0 ; i < r_size ; i++) free((*main_R)[i]);
      free(*main_R);
