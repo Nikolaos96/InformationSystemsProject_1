@@ -244,7 +244,7 @@
 			    }else{
 				//quickSort(Rr_2, start, end);
 				quickSort(Rr_1, start, end - 1);			//////////////////// 4
-//				for(int k = start; k < end; k++) {				// 5
+//				for(int k = start; k < end; k++) {				// 5      den xreiazetai auto
 //				    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;		// 6
 //				    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;	// 7
 //				}
@@ -257,7 +257,7 @@
 	   free(hist);
    }else{
 	  quickSort(Rr_1, start, end - 1);
-//	  for(int k = start; k < end; k++) {					// 8
+//	  for(int k = start; k < end; k++) {					// 8    den xreiazetai auto
 //		(*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;		// 9
 //		(*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;	// 10
 //	  }
@@ -284,8 +284,7 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
 	 }
 
 	 if( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
-	     // eisagwgi stin lista to
-	     // (*Rr)->tuples[r].payload - (*Ss)->tuples[s].payload
+	     eisagogi_eggrafis(list, (*Rr)->tuples[r].payload, (*Ss)->tuples[s].payload);
 	     s++;
 	 }else{
 	     s = mark;

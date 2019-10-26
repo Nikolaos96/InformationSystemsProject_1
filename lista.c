@@ -11,7 +11,7 @@
 
 
  typedef struct typos_komvou{
- 	int   **array;     // thelou pinaka 2D uint64_t 65500
+ 	uint64_t   **array;     // thelou pinaka 2D uint64_t 65500
 	int   index;
 	int   size;
 
@@ -41,24 +41,19 @@
 
 
 
-
+	prosorinos->index = 0;
 	prosorinos->size = 65000;
-	prosorinos->array = malloc(prosorinos->size * sizeof(int));
+	prosorinos->array = malloc(prosorinos->size * sizeof(uint64_t));
 	if(prosorinos->array == NULL){
 	    printf("Error malloc prosorinos->array  \n");
 	    exit(1);
 	}
 	for(i = 0 ; i < prosorinos->size ; i++){
-	    prosorinos->array[i] = malloc(2 * sizeof(int));
+	    prosorinos->array[i] = malloc(2 * sizeof(uint64_t));
 	    if(prosorinos->array[i] == NULL){
 	        printf("Error malloc prosorinos->array[i]  \n");
 	    }
 	}
-	prosorinos->index = 0;
-
-
-
-
 
  	if((*linfo)->size == 0){
  		(*linfo)->arxi = prosorinos;
@@ -81,29 +76,31 @@
 
 
 	typos_deikti mapas = (*linfo)->telos;
-	if(mapas->index == mapas->size - 1){
+	if(mapas->index == mapas->size){
 	    eisagogi_komvou(linfo);
 	    eisagogi_eggrafis(linfo, a, b);
 	}else{
 
 	    mapas->array[mapas->index][0]  = a;
-	    mapas->array[mapas->index][1] = b;
+	    mapas->array[mapas->index][1]  = b;
 	    mapas->index++;
 	}
 
  }
 
 
+
  void emfanisi(info_deikti* linfo){
 
 	typos_deikti mapas = (*linfo)->arxi;
-	printf(" \n ");
+    printf("Table R  -  Table S  \n\n");
  	while(mapas != NULL){
- //		printf("%d\n", mapas->dedomena);	//////////
+ 	    for(int i = 0 ; i < mapas->index ; i++)
+ 	        printf("%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
 		mapas = mapas->epomenos;
  	}
-	printf(" \n ");
  }
+
 
 
  void lista_diagrafi(info_deikti* linfo){
