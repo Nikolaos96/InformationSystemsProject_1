@@ -15,6 +15,9 @@ int main(int argc, char *argv[]){
    int r_size = 500, s_size = 500;
    int i;
 
+   // na dinoume apo tin grammi entolwn ta arxeia kai ta megethoi tous
+   // p.x.  main -f1 table_R.txt -s1 500 -f2 table_S.txt -s2 500
+
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S);
 
    recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
