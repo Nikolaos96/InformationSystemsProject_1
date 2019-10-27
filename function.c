@@ -279,29 +279,22 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
  /*
 
  */
- void delete_all_array(uint64_t ***main_R, relation **Rr_1, relation **Rr_2, int r_size, uint64_t ***main_S, relation **Ss_1,
+ void delete_all_array(relation **Rr_1, relation **Rr_2, int r_size, relation **Ss_1,
 		       relation **Ss_2, int s_size, char **file1, char **file2){
      int i;
 
      free(*file1);
      free(*file2);
 
-     for(i = 0 ; i < r_size ; i++) free((*main_R)[i]);
-     free(*main_R);
+     free((*Rr_1)->tuples);
+     free(*Rr_1);
+     free((*Rr_2)->tuples);
+     free(*Rr_2);
 
-     for(i = 0 ; i < s_size ; i++) free((*main_S)[i]);
-     free(*main_S);
-
-
-    free((*Rr_1)->tuples);
-    free(*Rr_1);
-    free((*Rr_2)->tuples);
-    free(*Rr_2);
-
-    free((*Ss_1)->tuples);
-    free(*Ss_1);
-    free((*Ss_2)->tuples);
-    free(*Ss_2);
+     free((*Ss_1)->tuples);
+     free(*Ss_1);
+     free((*Ss_2)->tuples);
+     free(*Ss_2);
 
      return;
  }

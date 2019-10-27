@@ -24,7 +24,7 @@ void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int byteP
 
 
 void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list);
-void delete_all_array(uint64_t ***main_R, relation **Rr_1, relation **Rr_2, int r_size, uint64_t ***main_S, relation **Ss_1,
+void delete_all_array(relation **Rr_1, relation **Rr_2, int r_size, relation **Ss_1,
 		      relation **Ss_2, int s_size, char **file1, char **file2);
 
 #endif
