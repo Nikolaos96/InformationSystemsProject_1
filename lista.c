@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "lista.h"
 
+
+
  typedef struct info_node{
  	int size;
 	typos_deikti arxi;
@@ -11,7 +13,7 @@
 
 
  typedef struct typos_komvou{
- 	uint64_t   **array;     // thelou pinaka 2D uint64_t 65500
+ 	uint64_t   **array;
 	int   index;
 	int   size;
 
@@ -38,7 +40,6 @@
 	int i;
  	typos_deikti prosorinos;
  	prosorinos = malloc(sizeof(typos_komvou));
-
 
 
 	prosorinos->index = 0;
@@ -71,8 +72,6 @@
 
 
  void eisagogi_eggrafis(info_deikti* linfo, int a, int b){
-	//prepei na kanoume eisagwgi ston pinaka tou teleutaiou komvou
-	//an o pinakas autos einai gematos prepei na dimiourgisoume ne komvo kai na kanoume eisagwgi
 
         if((*linfo)->telos == NULL) eisagogi_komvou(linfo);
 	typos_deikti mapas = (*linfo)->telos;
@@ -86,7 +85,6 @@
 	    mapas->array[mapas->index][1]  = b;
 	    mapas->index++;
 	}
-
  }
 
 
@@ -104,7 +102,6 @@
 
 
  void lista_diagrafi(info_deikti* linfo){
-
 	int i;
 
         if((*linfo)->arxi != NULL){
