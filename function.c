@@ -258,6 +258,8 @@
      int mark = -1;
      int r = 0, s = 0;
 
+	printf("\n\n");
+
      do{
          if(mark == -1){
 	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key ) { r++; }
