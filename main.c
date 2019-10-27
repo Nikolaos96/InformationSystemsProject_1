@@ -12,10 +12,9 @@ int main(int argc, char *argv[]){
    int r_size, s_size, i;
 
 
-
    take_arguments(argc, argv, &table_R, &r_size, &table_S, &s_size);
 
-   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, &main_R, &main_S, table_R, table_S);
+   create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, table_R, table_S);
 
    recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
    recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
