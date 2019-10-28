@@ -90,13 +90,24 @@
 
 
  void emfanisi(info_deikti* linfo){
-
+        int i;
 	typos_deikti mapas = (*linfo)->arxi;
         printf("Table R  -  Table S  \n\n");
+
+//        if(mapas != NULL){
+//	    FILE *f = fopen("results.csv", "w");
+//	    if(f == NULL){
+//	        printf("Error file for results. \n");
+//		exit(1);
+//	    }
+//        }
+
  	while(mapas != NULL){
- 	    for(int i = 0 ; i < mapas->index ; i++) printf("%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
+ 	    for(int i = 0 ; i < mapas->index ; i++) printf("%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]); // fprintf(f, "%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
 	    mapas = mapas->epomenos;
  	}
+
+        //if( (mapas = (*linfo)->arxi) != NULL) fclose(f);
  }
 
 
