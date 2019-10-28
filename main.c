@@ -27,26 +27,16 @@ int main(int argc, char *argv[]){
    recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
 
 
-   //   for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
-   //   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
-
-
-   // mexri edw ola kala -----------------------------------------------------------------------------------
-
+   //for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
+   //for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
    // create list for results
    info_deikti list = NULL;
    list = LIST_dimiourgia(&list);
 
-
-
-
    // join function for relations Rr_1 and Ss_1
-//   Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);     ///  exei ena provlima edw
-
-
-
+   Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);     ///  exei ena provlima edw
 
 
    // time after sort arrays and join

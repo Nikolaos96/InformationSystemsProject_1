@@ -206,7 +206,7 @@
  */
  void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
 
-     if( end - start > 4096) {     // 4096   thelei allagi
+     if( end - start > 4096) {
 
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
@@ -225,10 +225,6 @@
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
-//	   relation *temp = *Rr_1;
-//	   *Rr_1 = *Rr_2;
-//	   *Rr_2 = temp;
-
 	   bytePos--;
 
 	   for(int i = 0; i < 256; i++) {
@@ -236,7 +232,7 @@
 		    continue;
 		else{
 		    if( bytePos > 0){
-			recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
+			recurseFunc(Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
 		    }else{
 			quickSort(Rr_2, start, end - 1);
 			for(int k = start ; k < end ; k++){
@@ -278,7 +274,6 @@
 
 	 if((r > (*Rr)->num_tuples-1) || (s > (*Ss)->num_tuples-1)) break;
 
-         printf("%lu    %lu   %lu    %lu \n", (*Rr)->tuples[r].key, (*Ss)->tuples[s].key, r, s);
 	 if( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
 	     eisagogi_eggrafis(list, (*Rr)->tuples[r].payload, (*Ss)->tuples[s].payload);
 	     s++;
