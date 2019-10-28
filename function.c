@@ -225,9 +225,9 @@
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
 
-	   relation *temp = *Rr_1;
-	   *Rr_1 = *Rr_2;
-	   *Rr_2 = temp;
+//	   relation *temp = *Rr_1;
+//	   *Rr_1 = *Rr_2;
+//	   *Rr_2 = temp;
 
 	   bytePos--;
 
@@ -235,8 +235,15 @@
 		if( hist[i] == 0)
 		    continue;
 		else{
-		    if( bytePos > 0) recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
-		    else	     quickSort(Rr_1, start, end - 1);
+		    if( bytePos > 0){
+			recurseFunc( Rr_1, Rr_2, p_sum[i] - hist[i], p_sum[i], bytePos);
+		    }else{
+			quickSort(Rr_2, start, end - 1);
+			for(int k = start ; k < end ; k++){
+			    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
+			    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;
+			}
+		    }
 		}
 	   }
 
@@ -244,6 +251,10 @@
 	   free(hist);
      }else{
 	  quickSort(Rr_1, start, end - 1);
+	  for(int k = start; k < end ; k++){
+	      (*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
+ 	      (*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
+	  }
      }
 
      return;
