@@ -206,7 +206,7 @@
  */
  void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
 
-     if( end - start > 1000 ) {     // 4096   thelei allagi
+     if( end - start > 4096) {     // 4096   thelei allagi
 
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
@@ -254,11 +254,9 @@
   function for join relation Rr - relation Ss
  */
  void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
-
      int mark = -1;
-     int r = 0, s = 0;
+     uint64_t r = 0, s = 0;
 
-	printf("\n\n");
 
      do{
          if(mark == -1){
@@ -267,6 +265,9 @@
 	     mark = s;
 	 }
 
+	 if((r > (*Rr)->num_tuples-1) || (s > (*Ss)->num_tuples-1)) break;
+
+         printf("%lu    %lu   %lu    %lu \n", (*Rr)->tuples[r].key, (*Ss)->tuples[s].key, r, s);
 	 if( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
 	     eisagogi_eggrafis(list, (*Rr)->tuples[r].payload, (*Ss)->tuples[s].payload);
 	     s++;
@@ -275,7 +276,8 @@
 	     r++;
 	     mark = -1;
 	 }
-     }while( r < (*Rr)->num_tuples && s < (*Ss)->num_tuples );
+
+     }while( (r < (*Rr)->num_tuples-1) && (s < (*Ss)->num_tuples-1) );  // evala -1 kai sta duo
 
      return;
  }

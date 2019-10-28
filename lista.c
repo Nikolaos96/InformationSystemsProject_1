@@ -71,7 +71,7 @@
  }
 
 
- void eisagogi_eggrafis(info_deikti* linfo, int a, int b){
+ void eisagogi_eggrafis(info_deikti* linfo, uint64_t a, uint64_t b){
 
         if((*linfo)->telos == NULL) eisagogi_komvou(linfo);
 	typos_deikti mapas = (*linfo)->telos;

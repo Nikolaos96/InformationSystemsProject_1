@@ -31,23 +31,30 @@ int main(int argc, char *argv[]){
    //   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
+   // mexri edw ola kala -----------------------------------------------------------------------------------
+
+
+
    // create list for results
    info_deikti list = NULL;
    list = LIST_dimiourgia(&list);
 
 
 
+
    // join function for relations Rr_1 and Ss_1
-   Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);
+//   Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);     ///  exei ena provlima edw
+
+
+
+
+
    // time after sort arrays and join
    time = clock() - time;
-
-
 
    // print results and cpu time
    emfanisi(&list);
    printf("\nCpu time is  %lf  seconds. \n", ((double)time) / CLOCKS_PER_SEC);
-
 
    // delete all relations and list
    lista_diagrafi(&list);
