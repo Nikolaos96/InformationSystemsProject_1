@@ -283,7 +283,7 @@
 	     mark = -1;
 	 }
 
-     }while( (r < (*Rr)->num_tuples-1) && (s < (*Ss)->num_tuples-1) );  // evala -1 kai sta duo
+     }while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) );  // evala -1 kai sta duo
 
      return;
  }
