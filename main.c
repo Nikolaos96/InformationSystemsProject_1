@@ -29,6 +29,7 @@ int main(int argc, char *argv[]){
    //for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
    //for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
+
    // create list for results
    info_deikti list = NULL;
    list = LIST_dimiourgia(&list);

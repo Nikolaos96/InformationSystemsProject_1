@@ -235,10 +235,10 @@
 			recurseFunc(Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
 		    }else{
 			quickSort(Rr_2, start, end - 1);
-			for(int k = start ; k < end ; k++){
-			    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
-			    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;
-			}
+//			for(int k = start ; k < end ; k++){
+//			    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
+//			    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;
+//			}
 		    }
 		}
 	   }
