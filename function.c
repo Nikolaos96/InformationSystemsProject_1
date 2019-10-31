@@ -206,8 +206,7 @@
  */
  void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos) {
 
-     if( end - start > 4096 ) {     // 4096   thelei allagi
-	  // printf("%d %d \n", start, end);
+     if( end - start > 4096 ) {
 	   int *hist, *p_sum;
 	   hist = malloc(256 * sizeof(int));
 	   if(hist == NULL){
@@ -224,10 +223,6 @@
 	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
-
-	   //relation *temp = *Rr_1;
-	   //*Rr_1 = *Rr_2;
-	   //*Rr_2 = temp;
 
 	   bytePos--;
 
@@ -274,14 +269,13 @@
 
      do{
          if(mark == -1){
-	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples-1) && (s < (*Ss)->num_tuples-1) )  { r++; }
-	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples-1) && (s < (*Ss)->num_tuples-1) ) { s++; }
+	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) )  { r++; }
+	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) ) { s++; }
 	     mark = s;
 	 }
 
 	 if((r > (*Rr)->num_tuples-1) || (s > (*Ss)->num_tuples-1)) break;
 
-         //printf("%lu    %lu   %lu    %lu \n", (*Rr)->tuples[r].key, (*Ss)->tuples[s].key, r, s);
 	 if( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
 	     eisagogi_eggrafis(list, (*Rr)->tuples[r].payload, (*Ss)->tuples[s].payload);
 	     s++;
@@ -290,7 +284,6 @@
 	     r++;
 	     mark = -1;
 	 }
-
      }while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) );  // evala -1 kai sta duo
 
      return;
