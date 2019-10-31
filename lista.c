@@ -53,6 +53,7 @@
 	    prosorinos->array[i] = malloc(2 * sizeof(uint64_t));
 	    if(prosorinos->array[i] == NULL){
 	        printf("Error malloc prosorinos->array[i]  \n");
+		exit(1);
 	    }
 	}
 
