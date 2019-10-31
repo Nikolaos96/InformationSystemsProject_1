@@ -125,6 +125,7 @@
 		mapas2 = mapas;
 		mapas = mapas->epomenos;
 		for(i = 0 ; i < mapas2->size ; i++) free(mapas2->array[i]);
+		free(mapas2->array);
 		free(mapas2);
 	    }
 	    (*linfo)->arxi = NULL;

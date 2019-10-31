@@ -267,8 +267,8 @@
 
      do{
          if(mark == -1){
-	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key ) { r++; }
-	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key ) { s++; }
+	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples)) { r++; }
+	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples)) { s++; }
 	     mark = s;
 	 }
 
@@ -282,7 +282,6 @@
 	     r++;
 	     mark = -1;
 	 }
-
      }while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) );  // evala -1 kai sta duo
 
      return;
@@ -310,4 +309,30 @@
      free(*Ss_2);
 
      return;
+ }
+
+
+
+
+ void join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
+
+     int r = 0;
+     int s = 0, ss;
+
+
+     while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) ){
+         while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key ) { r++; }
+         while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key ) { s++; }
+
+	 ss = s;
+	 while( (*Rr)->tuples[r].key == (*Ss)->tuples[ss].key){
+	     s = ss;
+	     while( (*Rr)->tuples[r].key == (*Ss)->tuples[s].key ){
+		 eisagogi_eggrafis(list, (*Rr)->tuples[r].payload, (*Ss)->tuples[s].payload);
+		 s++;
+	     }
+	     r++;
+	 }
+     }
+
  }

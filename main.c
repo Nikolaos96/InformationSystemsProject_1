@@ -36,6 +36,8 @@ int main(int argc, char *argv[]){
 
    // join function for relations Rr_1 and Ss_1
    Sort_Merge_Join(&Rr_1, r_size, &Ss_1, s_size, &list);     ///  exei ena provlima edw
+   //join(&Rr_1, r_size, &Ss_1, s_size, &list);
+
 
    // time after sort arrays and join
    time = clock() - time;

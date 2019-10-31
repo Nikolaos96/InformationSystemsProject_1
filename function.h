@@ -28,4 +28,6 @@ void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_
 void delete_all_array(relation **Rr_1, relation **Rr_2, int r_size, relation **Ss_1,
 		      relation **Ss_2, int s_size, char **file1, char **file2);
 
+
+void join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list);
 #endif
