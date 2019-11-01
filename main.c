@@ -74,7 +74,7 @@ int main(int argc, char *argv[]){
 
    // print results and cpu time
    emfanisi(&list);
-   printf("\nCpu time is  %lf  seconds. \n", ((double)time) / CLOCKS_PER_SEC);
+   printf("Cpu time is  %lf  seconds. \n", ((double)time) / CLOCKS_PER_SEC);
 
    // delete all relations and list
    lista_diagrafi(&list);
