@@ -46,20 +46,20 @@ int main(int argc, char *argv[]){
    //quickSort(&Rr_1, 0, r_size - 1);
    //quickSort(&Ss_1, 0, s_size - 1);
 
-    //  for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
-   //   for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
+   //for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
+   //for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
-////////////////// UNIT TESTING
+   /////////////// UNIT TESTING
 
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("testSortingSuite", 0, 0);
+   CU_initialize_registry();
+   CU_pSuite suite = CU_add_suite("testSortingSuite", 0, 0);
 
-    CU_add_test(suite, "SortingTestCase", test);
+   CU_add_test(suite, "SortingTestCase", test);
 
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
+   CU_basic_set_mode(CU_BRM_VERBOSE);
+   CU_basic_run_tests();
+   CU_cleanup_registry();
 
 
    // create list for results
@@ -80,6 +80,5 @@ int main(int argc, char *argv[]){
    lista_diagrafi(&list);
    delete_all_array(&Rr_1, &Rr_2, r_size, &Ss_1, &Ss_2, s_size, &table_R, &table_S);
 	
-
    return 0;
 }
