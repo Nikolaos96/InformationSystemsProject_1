@@ -28,14 +28,11 @@
 
 int main(int argc, char *argv[]){
    clock_t time; 
-
-
    // take all arguments from command line and init variables
    take_arguments(argc, argv, &table_R, &r_size, &table_S, &s_size);
 
    // create main relations
    create_init_relations(&Rr_1, &Rr_2, &Ss_1, &Ss_2, r_size, s_size, table_R, table_S);
-
 
    // time before sort arrays and join
    time = clock();
@@ -48,7 +45,6 @@ int main(int argc, char *argv[]){
 
    //for(int i=0 ; i < r_size ; i++) printf("%lu\n",  Rr_1->tuples[i].key );
    //for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
-
 
    /////////////// UNIT TESTING
 
