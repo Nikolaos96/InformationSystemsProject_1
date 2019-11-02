@@ -219,7 +219,6 @@
 		   exit(1);
 	   }
 
-
 	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
 	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
 	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
@@ -230,17 +229,10 @@
 		if( hist[i] == 0)
 		    continue;
 		else{
-		    if( bytePos > 0) {
+		    if( bytePos > 0)
 			recurseFunc( Rr_2, Rr_1, p_sum[i] - hist[i], p_sum[i], bytePos);
-		    }
-		    else	     {
+		    else
 			quickSort(Rr_2, start, end - 1);
-			/*for( int k = start; k < end; k++){
-			    (*Rr_1)->tuples[k].key = (*Rr_2)->tuples[k].key;
-		    	    (*Rr_1)->tuples[k].payload = (*Rr_2)->tuples[k].payload;	    
-			}*/
-	           }
-			   
 		}
 	   }
 
@@ -248,7 +240,7 @@
 	   free(hist);
      }else{
 	  quickSort(Rr_1, start, end - 1);
-	  for( int k = start; k < end; k++){
+	  for(int k = start; k < end; k++){
                (*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
                (*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
           }
@@ -270,7 +262,7 @@
      do{
          if(mark == -1){
 	     while( (*Rr)->tuples[r].key < (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) )  { r++; }
-	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) ) { s++; }
+	     while( (*Rr)->tuples[r].key > (*Ss)->tuples[s].key && (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) )  { s++; }
 	     mark = s;
 	 }
 
