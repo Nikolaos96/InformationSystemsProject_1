@@ -21,14 +21,12 @@
 	  strcpy(*file1, *argv);
         }else if(!strcmp(arg, "-s1")){
 	    *s_file1 = atoi(*++argv);
-
         }else if(!strcmp(arg, "-f2")){
 	    *file2 = malloc((strlen(*++argv) + 1) * sizeof(char));
 	    strcpy(*file2, *argv);
         }else if(!strcmp(arg, "-s2")){
 	    *s_file2 = atoi(*++argv);
 	}
-
         if(argc > 1) argc--;
      }
 
@@ -68,7 +66,6 @@
      (*Ss_2)->num_tuples = size_s;
      (*Ss_2)->tuples = malloc((*Ss_2)->num_tuples * sizeof(tuple));
      if((*Ss_2)->tuples == NULL){ printf("Error malloc (*Ss_2)->tuples \n"); exit(1); }
-
 
 
      FILE *f1, *f2;
@@ -257,7 +254,6 @@
  void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
      int mark = -1;
      uint64_t r = 0, s = 0;
-
 
      do{
          if(mark == -1){
