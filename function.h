@@ -24,8 +24,8 @@ void quickSort(relation **Rr, int low, int high);
 void recurseFunc(relation **Rr_1, relation **Rr_2, int start, int end, int bytePos);
 
 
-void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list);
-void delete_all_array(relation **Rr_1, relation **Rr_2, int r_size, relation **Ss_1,
-		      relation **Ss_2, int s_size, char **file1, char **file2);
+void Sort_Merge_Join(relation **Rr, relation **Ss, info_deikti *list);
+void delete_all_array(relation **Rr_1, relation **Rr_2, relation **Ss_1,
+		      relation **Ss_2, char **file1, char **file2);
 
 #endif
