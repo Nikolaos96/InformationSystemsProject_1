@@ -262,7 +262,7 @@
  */
  void Sort_Merge_Join(relation **Rr, int r_size, relation **Ss, int s_size, info_deikti *list){
      int mark = -1;
-     uint64_t r = 0, s = 0;
+     int r = 0, s = 0;
 
 
      do{
