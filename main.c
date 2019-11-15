@@ -1,8 +1,9 @@
 /* main.c */
 #include "function.h"
 #include "lista.h"
-#include <CUnit/CUnit.h>
-#include <CUnit/Basic.h>
+#define BYTEPOS 7
+//#include <CUnit/CUnit.h>
+//#include <CUnit/Basic.h>
 
 
    relation *Rr_1, *Rr_2;
@@ -10,7 +11,7 @@
    char *table_R, *table_S;
    int r_size, s_size, i;
 
-
+/*
    int test_sorting(relation **Rr_1, int size){
        for(int i = 0; i < size-1; i++) {
            if( (*Rr_1)->tuples[i].key > (*Rr_1)->tuples[i+1].key )
@@ -23,7 +24,7 @@
        CU_ASSERT( test_sorting( &Rr_1, r_size ) == 1 );
        CU_ASSERT( test_sorting( &Ss_1, s_size ) == 1);
    }
-
+*/
 
 
 int main(int argc, char *argv[]){
@@ -37,9 +38,9 @@ int main(int argc, char *argv[]){
    // time before sort arrays and join
    time = clock();
    // recurse function for sort the relation Rr_1
-   recurseFunc(&Rr_1, &Rr_2, 0, r_size, 7);
+   recurseFunc(&Rr_1, &Rr_2, 0, r_size, BYTEPOS);
    // recurse function for sort the relation Ss_1
-   recurseFunc(&Ss_1, &Ss_2, 0, s_size, 7);
+   recurseFunc(&Ss_1, &Ss_2, 0, s_size, BYTEPOS);
 
 
    //quickSort(&Rr_1, 0, r_size - 1);
@@ -48,9 +49,8 @@ int main(int argc, char *argv[]){
    //for(int i=0 ; i < s_size ; i++) printf("%lu\n",  Ss_1->tuples[i].key );
 
 
-
    /////////////// UNIT TESTING
-
+/*
    CU_initialize_registry();
    CU_pSuite suite = CU_add_suite("testSortingSuite", 0, 0);
 
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]){
    CU_cleanup_registry();
 
    /////////////// UNIT TESTING
-
+*/
 
    // create list for results
    info_deikti list = NULL;

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lista.h"
-
+#include "structs.h"
 
 
  typedef struct info_node{
@@ -13,7 +13,7 @@
 
 
  typedef struct typos_komvou{
- 	uint64_t   **array;
+ 	tuple *array;
 	int   index;
 	int   size;
 
@@ -44,17 +44,10 @@
 
 	prosorinos->index = 0;
 	prosorinos->size = 65000;
-	prosorinos->array = malloc(prosorinos->size * sizeof(uint64_t));
+	prosorinos->array = malloc(prosorinos->size * sizeof(tuple));
 	if(prosorinos->array == NULL){
 	    printf("Error malloc prosorinos->array  \n");
 	    exit(1);
-	}
-	for(i = 0 ; i < prosorinos->size ; i++){
-	    prosorinos->array[i] = malloc(2 * sizeof(uint64_t));
-	    if(prosorinos->array[i] == NULL){
-	        printf("Error malloc prosorinos->array[i]  \n");
-		exit(1);
-	    }
 	}
 
  	if((*linfo)->size == 0){
@@ -82,8 +75,8 @@
 	    eisagogi_eggrafis(linfo, a, b);
 	}else{
 
-	    mapas->array[mapas->index][0]  = a;
-	    mapas->array[mapas->index][1]  = b;
+	    mapas->array[mapas->index].key  = a;
+	    mapas->array[mapas->index].payload  = b;
 	    mapas->index++;
 	}
  }
@@ -104,7 +97,7 @@
         }
 
  	while(mapas != NULL){
- 	    for(int i = 0 ; i < mapas->index ; i++) fprintf(f, "%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]); // fprintf(f, "%lu  -  %lu \n", mapas->array[i][0], mapas->array[i][1]);
+ 	    for(int i = 0 ; i < mapas->index ; i++) fprintf(f, "%lu  -  %lu \n", mapas->array[i].key, mapas->array[i].payload);
 	    mapas = mapas->epomenos;
  	}
 
@@ -124,7 +117,6 @@
  	    while(mapas != NULL){
 		mapas2 = mapas;
 		mapas = mapas->epomenos;
-		for(i = 0 ; i < mapas2->size ; i++) free(mapas2->array[i]);
 		free(mapas2->array);
 		free(mapas2);
 	    }

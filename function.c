@@ -1,6 +1,7 @@
 /* function.c */
 #include "function.h"
-
+#define HIST_SIZE  256
+#define P_SUM_SIZE 256
 
 
  /*
@@ -75,9 +76,12 @@
          exit(1);
      }
 
+     char c;
      for(i = 0 ; i < (*Rr_1)->num_tuples ; i++){
          fscanf(f1, "%lu", &(*Rr_1)->tuples[i].key);
-	 (*Rr_1)->tuples[i].payload = i;
+	 (*Rr_1)->tuples[i].payload = i;		/////////
+	 //fscanf(f1, "%c", &c);
+	 //fscanf(f1, "%lu", &(*Rr_1)->tuples[i].payload);
      }
      fclose(f1);
 
@@ -90,7 +94,9 @@
 
      for(i = 0 ; i < (*Ss_1)->num_tuples ; i++){
 	 fscanf(f2, "%lu", &(*Ss_1)->tuples[i].key);
-	 (*Ss_1)->tuples[i].payload = i;
+	 (*Ss_1)->tuples[i].payload = i;		/////////
+	 //fscanf(f2, "%c", &c);
+         //fscanf(f2, "%lu", &(*Ss_1)->tuples[i].payload);
      }
      fclose(f2);
 
@@ -205,24 +211,24 @@
 
      if( end - start > 4096 ) {
 	   int *hist, *p_sum;
-	   hist = malloc(256 * sizeof(int));
+	   hist = malloc(HIST_SIZE * sizeof(int));
 	   if(hist == NULL){
 		   printf("Error malloc hist \n");
 		   exit(1);
 	   }
-	   p_sum = malloc(256 * sizeof(int));
+	   p_sum = malloc(P_SUM_SIZE * sizeof(int));
 	   if(p_sum == NULL){
 		   printf("Error malloc p_sum \n");
 		   exit(1);
 	   }
 
-	   make_hist(Rr_1, start, end, &hist[0], 256, bytePos);
-	   make_p_sum(&hist[0], 256, &p_sum[0], 256, start);
-	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], 256, bytePos);
+	   make_hist(Rr_1, start, end, &hist[0], HIST_SIZE, bytePos);
+	   make_p_sum(&hist[0], HIST_SIZE, &p_sum[0], P_SUM_SIZE, start);
+	   make_Rr_2(Rr_1, Rr_2, start, end, &p_sum[0], P_SUM_SIZE, bytePos);
 
 	   bytePos--;
 
-	   for(int i = 0; i < 256; i++) {
+	   for(int i = 0; i < HIST_SIZE ; i++) {
 		if( hist[i] == 0)
 		    continue;
 		else{
@@ -238,10 +244,9 @@
      }else{
 	  quickSort(Rr_1, start, end - 1);
 	  for(int k = start; k < end; k++){
-               (*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
-               (*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
+              (*Rr_2)->tuples[k].key = (*Rr_1)->tuples[k].key;
+              (*Rr_2)->tuples[k].payload = (*Rr_1)->tuples[k].payload;
           }
-
      }
 
      return;
@@ -272,7 +277,7 @@
 	     r++;
 	     mark = -1;
 	 }
-     }while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) );  // evala -1 kai sta duo
+     }while( (r < (*Rr)->num_tuples) && (s < (*Ss)->num_tuples) );
 
      return;
  }

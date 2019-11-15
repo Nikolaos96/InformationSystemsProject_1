@@ -1,5 +1,5 @@
 main: main.o function.o lista.o
-	gcc -Wall main.o function.o lista.o -o main -lcunit
+	gcc main.o function.o lista.o -o main
 
 main.o: main.c
 	gcc -c main.c
